@@ -88,7 +88,7 @@ void delete_node(int pos){
    }
 
 
-//function to remove duplicate
+
 
 //function to reverse the linked list
 
