@@ -1,4 +1,6 @@
  #include <iostream>
+ #include <queue>
+ #include <stack>
  using namespace std;
  //BST--Binary Search Tree
 struct node{
@@ -42,13 +44,90 @@ void insert(int value){
     }
 }
 
+///---Functions to traverse BST---///
+
+//1. BFS traversal or level-order traversal
+void bfs(){
+    queue<struct node*> qu;
+    qu.push(root);
+    cout<<"BFS Traversal: ";
+    while(!qu.empty()){  
+    struct node* front= qu.front();
+    cout<<front->data<<"-";
+    qu.pop(); 
+    if(front->left)qu.push(front->left);
+    if(front->right)qu.push(front->right);
+    
+    }
+    cout<<endl;
+} 
+
+//2. DFS traversal
+
+// a. Pre-order traversal
+void pre_order(){
+    stack<struct node*> st;
+    st.push(root);
+    cout<<"Pre-Order Traversal: ";
+    while(!st.empty()){
+        struct node* current=st.top();
+        cout<<current->data<<"-";
+        st.pop();
+        if(current->right)st.push(current->right);
+        if(current->left)st.push(current->left);
+    }
+    cout<<endl;
+}
+
+//b. Post-order traversal
+void post_order(){
+    stack<struct node*> S1;
+    stack<struct node*> S2;
+    struct node* current=root;
+    S1.push(current);
+    while(!S1.empty()){
+        current=S1.top();
+        S2.push(S1.top());
+        S1.pop();
+        if(current->left)S1.push(current->left);
+        if(current->right)S1.push(current->right);
+    }
+    cout<<"Post-Order Traversal: ";
+    while(!S2.empty()){
+       cout<<S2.top()->data<<"-";
+       S2.pop();
+   }
+}
+
+// c. In-order traversal
+void in_order(){
+    stack<struct node*> st;
+    struct node* current= root;
+    cout<<"In-Order Traversal: ";
+    
+    while(!st.empty()||current!=NULL){
+    
+        while(current!=NULL){
+        st.push(current);
+        current=current->left;
+    }
+        current=st.top();
+         st.pop();
+        cout<<current->data<<"-";
+        current=current->right;    
+   }
+    cout<<endl;
+}
+
+
+
 //function to display Min_value of the tree
 void min_value(){
     struct node* current=root;
     while(current->left!=NULL){
         current=current->left;
     }
-    cout<<"Min vaue in tree: "<<current->data<<endl;
+    cout<<"Min value in tree: "<<current->data<<endl;
 }
 
 
@@ -58,16 +137,23 @@ void max_value(){
     while(current->right!=NULL){
         current=current->right;
     }
-    cout<<"Max vaue in tree: "<<current->data<<endl;
+    cout<<"Max value in tree: "<<current->data<<endl;
 }
  int main(){
-     insert(3);
-     insert(4);
-     insert(8);
-     insert(9);
-     insert(1);
+     insert(5);
      insert(2);
+     insert(3);
+     insert(1);
+     insert(10);
+     insert(8);
+     insert(11);
+     
      min_value();
      max_value();
+     bfs();
+     pre_order();
+     in_order();
+     post_order();
+
      return 0;
  }
